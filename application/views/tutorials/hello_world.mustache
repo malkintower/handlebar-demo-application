@@ -1,0 +1,23 @@
+<div id="tutorial">
+    <h2 class="contenthead">Hello World</h2>
+    <p>If you haven't done so already <a href="/tutorials/setup">enable the handlebar module</a> in your application.</p>
+    <p>Create the mustache template <strong>/application/views/home.mustache</strong>
+    <p>Paste in the following markup:</p>
+    <pre>&lt;html&gt;
+    &lt;body&gt;
+	&lt;p&gt;&#123;&#123;content&#125;&#125;&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
+    <p>Next we will create the neccessary classes to replace &#123;&#123;content&#125;&#125; with &lsquo;Hello World&rsquo;.</p>
+    <p>Create the controller class <strong>/application/classes/controller/home.php</strong></p>
+    <p>Paste in the following code:</p>
+    {{{controller}}}
+    <p>Next we need to create our Home View class.  If you don't already have one create a view folder under your application's classes folder like so:</p>
+    <pre>application/
+    classes/
+	view/</pre>
+    <p>Create the view class <strong>/application/classes/view/home.php</strong></p>
+    <p>Paste in the following code:</p>
+    {{{view}}}
+    <p>Go to <strong>http://localhost/home</strong> and <strong>Hello World!</strong> should hopefully appear.</p>
+</div>

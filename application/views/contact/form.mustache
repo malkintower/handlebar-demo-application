@@ -1,0 +1,23 @@
+<div id="contact">
+    <h2 class="contenthead">Contact Form Example</h2>
+    <form action="/contact" method="post" accept-charset="utf-8">
+        <p>
+	    <label for="cname">Your full name <span>*</span></label>
+	    {{#error}}{{#cname}}<span class="error">{{cname}}</span>{{/cname}}{{/error}}
+	    <input type="text" id="cname" name="cname" size="50" maxlength="100" class="itb" {{#post}}{{#cname}}value="{{cname}}" {{/cname}}{{/post}}/>
+	</p>
+	<p>
+	    <label for="cmail">Your e-mail address <span>*</span></label>
+	    {{#error}}{{#cmail}}<span class="error">{{cmail}}</span>{{/cmail}}{{/error}}
+	    <input type="text" id="cmail" name="cmail" size="50" maxlength="100" class="itb" {{#post}}{{#cmail}}value="{{cmail}}" {{/cmail}}{{/post}}/>
+	</p>
+	<p>
+	    <label for="cmess">Your message <span>*</span></label>
+	    {{#error}}{{#cmess}}<span class="error">{{cmess}}</span>{{/cmess}}{{/error}}
+	    <textarea id="cmess" name="cmess" cols="50" rows="10" class="ita">{{post.cmess}}</textarea>
+	</p>
+	<p>
+	    <input type="submit" name="submit" value="Send Message" />
+	</p>
+    </form>
+</div>

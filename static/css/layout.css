@@ -1,0 +1,66 @@
+/* fonts */
+
+body, input, textarea { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 100%; font-weight: normal; }
+
+h1, h2, h3, h4, h5 { font-weight: bold; }
+
+h1 { font-size: 1.5em; }
+h2 { font-size: 1.17em; }
+h3 { font-size: 1em; }
+h4 { font-size: 0.83em; }
+h5 { font-size: 0.75em; }
+
+#container { text-align: left; }
+
+/* layout */
+
+#contentcontainer { overflow: auto; }
+
+#nav { max-width: 100%; min-width: 128px; margin: 0 auto; overflow: auto; }
+#navinner { list-style-type: none; overflow: auto; margin: 0 16px 0 16px; }
+#navinner li { display: inline-block; float: left; margin: 0 1px 0 0; }
+#navinner li a { display: block; float: left; padding: 0.25em 0.5em 0 0.5em; text-decoration: none; border-bottom:1px solid; }
+#navinner li.selected { padding: 0.25em 0.5em 0 0.5em; border-bottom: 1px solid; }
+
+#header,
+#content { padding: 1em 16px; }
+#headerinner { width: 100%; overflow: auto; }
+#headerinner h1 { display: inline-block; float: left; padding: 3px 6px; line-height: 1em; }
+
+.contenthead { border-bottom: 1px solid; clear: both; margin: 0 0 1em 0; }
+p { margin: 0 0 1em 0; overflow: auto; }
+ul { margin: 0 0 0 20px; list-style: square; }
+li { margin: 0.25em 0; }
+#contact p label { display: block; }
+.itb { width: 25em; height: 1.2em; }
+.ita { width: 25em; height: 10em; }
+span.error { display: block; }
+pre, code { display: block; padding: 0.5em; margin: 0 0 1em 0; overflow: auto; max-width: 100%; }
+.example h3 { margin: 1em 0 0 0; }
+
+
+/* IE 6 Fix */
+* html #navinner,
+* html #header h1 { height: 1%; }
+
+
+/* Colours */
+body { color: #4c4c4c; }
+#header,
+#navcontainer { background-color: #77c244; }
+#headerinner h1 { background-color: #113C32; color: #efefef; font-weight: normal; }
+#navinner li.selected  { color: #4c4c4c; background-color: #fff; border-bottom-color: #fff; }
+#navinner li a { color: #fff; background-color: #3b7439; border-bottom-color: #77c244;  }
+#navinner li a:hover { color: #4c4c4c; background-color: #fff; border-bottom-color: #fff; }
+.error { color:#cc0000; }
+pre, code { background-color: #eee; color: #000; }
+#content a, #content h3 { color: #3b7439; }
+#content a:hover { color: #4c4c4c; }
+
+
+/* CSS 3 */
+#header h1 {
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
