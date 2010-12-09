@@ -50,7 +50,10 @@ class View_Template extends Handlebar
 
 		foreach ($nav as &$item)
 		{
-			if (strtolower($item['name']) == strtolower($this->selected))
+			$href = explode('/', strtolower($item['href']));
+			$href = array_pop($href);
+			
+			if ($href == strtolower($this->selected))
 			{
 				unset($item['href']);
 				break;
