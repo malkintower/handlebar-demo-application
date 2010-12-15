@@ -108,6 +108,11 @@ class Controller_Examples extends Controller_Handlebar
 		$this->view = Handlebar::factory('examples/sections');
 	}
 
+	public function action_sections_nested()
+	{
+		$this->view = Handlebar::factory('examples/sectionsnested');
+	}
+
 	public function action_sections_spaces()
 	{
 		$this->view = Handlebar::factory('examples/sectionsspaces');
