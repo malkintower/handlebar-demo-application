@@ -2,11 +2,12 @@
 
 class View_Contact extends View_Template
 {
+
 	function before()
 	{
 		parent::before();
 
-		if ( isset($this->contact) )
+		if (isset($this->contact))
 		{
 			$this->insert_template('contact/form', 'content');
 		}

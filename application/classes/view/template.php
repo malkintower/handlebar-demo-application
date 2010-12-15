@@ -1,4 +1,6 @@
-<?php defined('SYSPATH') OR die('No direct access allowed.');
+<?php
+
+defined('SYSPATH') OR die('No direct access allowed.');
 
 class View_Template extends Handlebar
 {
@@ -6,7 +8,6 @@ class View_Template extends Handlebar
 	protected $page_title = 'Handlebar Mustache » ';
 	protected $styles;
 	protected $content = 'default content';
-	protected $selected;
 
 	function before()
 	{
@@ -17,10 +18,6 @@ class View_Template extends Handlebar
 				array('href' => CSS_PATH.'reset.css', 'media' => 'screen'),
 				array('href' => CSS_PATH.'layout.css', 'media' => 'screen')
 		);
-
-		$request = Request::current();
-
-		$this->selected = $request->action === 'index' ? $request->controller : '';
 	}
 
 	function navigation()
@@ -28,35 +25,38 @@ class View_Template extends Handlebar
 		$nav = array(
 				array(
 						'name' => 'Home',
-						'href' => '/home'
+						'href' => Url::base().'home'
 				),
 				array(
 						'name' => 'Hello World',
-						'href' => '/helloworld'
+						'href' => Url::base().'helloworld'
 				),
 				array(
 						'name' => 'Contact',
-						'href' => '/contact'
+						'href' => Url::base().'contact'
 				),
 				array(
 						'name' => 'Mustache Examples',
-						'href' => '/examples'
+						'href' => Url::base().'examples'
 				),
 				array(
 						'name' => 'Handlebar Tutorials',
-						'href' => '/tutorials'
+						'href' => Url::base().'tutorials'
 				)
 		);
 
-		foreach ($nav as &$item)
+		if (isset($this->selected))
 		{
-			$href = explode('/', strtolower($item['href']));
-			$href = array_pop($href);
-			
-			if ($href == strtolower($this->selected))
+			foreach ($nav as &$item)
 			{
-				unset($item['href']);
-				break;
+				$href = explode('/', strtolower($item['href']));
+				$href = array_pop($href);
+
+				if ($href == strtolower($this->selected))
+				{
+					unset($item['href']);
+					break;
+				}
 			}
 		}
 
@@ -71,6 +71,11 @@ class View_Template extends Handlebar
 	function content()
 	{
 		return $this->content;
+	}
+
+	function base_url()
+	{
+		return Url::base();
 	}
 
 }

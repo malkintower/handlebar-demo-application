@@ -1,11 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Controller_Examples extends Controller_Handlebar
+class Controller_Examples extends Controller_Template
 {
 
 	public function action_index()
 	{
-		$this->view = Handlebar::factory('examples/index');
+		$this->view = Handlebar::factory('examples/index')
+			->bind('selected', $this->selected);
 	}
 
 	public function action_child_context()

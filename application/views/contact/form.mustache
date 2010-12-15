@@ -1,6 +1,6 @@
 <div id="contact">
     <h2 class="contenthead">Contact Form Example</h2>
-    <form action="/contact" method="post" accept-charset="utf-8">
+    <form action="{{base_url}}contact" method="post" accept-charset="utf-8">
         <p>
 	    <label for="cname">Your full name <span>*</span></label>
 	    {{#error}}{{#cname}}<span class="error">{{cname}}</span>{{/cname}}{{/error}}

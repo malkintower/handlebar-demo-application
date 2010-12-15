@@ -5,6 +5,11 @@
  */
 define('CSS_PATH', '/static/css/');
 
+/**
+ * Set the production status by the domain.
+ */
+define('IN_PRODUCTION', $_SERVER['SERVER_ADDR'] !== '127.0.0.1');
+
 //-- Environment setup --------------------------------------------------------
 
 /**
@@ -56,7 +61,8 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
  */
 Kohana::init(array(
 			'base_url' => '/',
-			'index_file' => FALSE
+			'index_file' => FALSE,
+			'errors' => ! IN_PRODUCTION
 	));
 
 /**
@@ -90,20 +96,65 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
+Route::set('error', 'error(/<action>(/<id>))', array('id' => '.+'))
+	->defaults(array(
+			'controller' => 'error',
+			'action' => '404',
+			'id' => NULL,
+	));
+
+
+Route::set('default', '(<controller>(/<action>))')
 	->defaults(array(
 		'controller' => 'home',
 		'action'     => 'index',
 	));
 
-if ( ! defined('SUPPRESS_REQUEST'))
+
+/**
+ * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
+ * If no source is specified, the URI will be automatically detected.
+ */
+try
 {
-	/**
-	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
-	 * If no source is specified, the URI will be automatically detected.
-	 */
-	echo Request::instance()
-		->execute()
-		->send_headers()
-		->response;
+	$request = Request::instance();
 }
+catch (Kohana_Request_Exception $e)
+{
+	if ( ! IN_PRODUCTION)
+	{
+		// Just re-throw the exception
+		throw $e;
+	}
+
+	// Log the error - usually missing controller
+	Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
+
+	// Could not match a route so point to a 404
+	$request = Request::factory('error/404'.$_SERVER['PATH_INFO']);
+}
+
+try
+{
+	// Attempt to execute the response
+	$request->execute();
+}
+catch (Exception $e)
+{
+	if ( ! IN_PRODUCTION)
+	{
+		// Just re-throw the exception
+		throw $e;
+	}
+
+	// Log the error - usually missing action
+	Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
+
+	// Send to internal error route
+	$request = Request::factory('error/404'.$_SERVER['PATH_INFO'])->execute();
+}
+
+/**
+ * Display the request response.
+ */
+echo $request->send_headers()->response;

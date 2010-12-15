@@ -12,4 +12,5 @@ class View_Tutorials_Index extends View_Template
 	{
 		return $this->page_title .= 'Tutorials Index';
 	}
+
 }

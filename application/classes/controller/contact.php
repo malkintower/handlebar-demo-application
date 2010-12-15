@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Controller_Contact extends Controller_Handlebar
+class Controller_Contact extends Controller_Template
 {
 
 	public function action_index()
@@ -35,7 +35,7 @@ class Controller_Contact extends Controller_Handlebar
 				'X-Mailer: PHP/'.phpversion();
 
 			// The mail function will probably fail if running as localhost
-			mail($to, $subject, $message, $headers);
+			//mail($to, $subject, $message, $headers);
 
 			// use success view
 			Request::instance()->redirect('contact/success');
@@ -49,7 +49,8 @@ class Controller_Contact extends Controller_Handlebar
 
 		$this->view = Handlebar::factory('Contact')
 				->bind('contact', $contact)
-				->bind('errors', $errors);
+				->bind('errors', $errors)
+				->bind('selected', $this->selected);
 	}
 
 	public function action_success()
