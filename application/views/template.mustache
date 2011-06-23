@@ -5,24 +5,27 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="Content-Language" content="en-GB" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="Kohana 3 Handlebar Mustache Test Application" />
-        <meta name="author" content="Phil Paxton (malkintower.co.uk)" />
+        <meta name="description" content="{{meta_description}}" />
+        <meta name="author" content="Phil Paxton (kisd.co.uk)" />
+        <meta name="keywords" content="{{meta_keywords}}" />
         {{#styles}}
-            <link type="text/css" href="{{href}}" rel="stylesheet" media="{{media}}" />
+        <link type="text/css" href="{{href}}" rel="stylesheet" media="{{media}}" />
         {{/styles}}
+        {{#scripts}}
+        <script type="text/javascript" src="{{src}}"></script>
+        {{/scripts}}        
     </head>
     <body>
         <div id="container">
-	    <div id="header">
-		<div id="headerinner">
-		    <h1>KOHANA Handlebar &#123;&#123;Mustache&#125;&#125; Demo Application</h1>
-		</div>
-	    </div>
+            <div id="header">
+                <div id="headerinner">
+                    <h1 id="title">{{^is_home_page}}<a href="/">{{/is_home_page}}Kohana{{^is_home_page}}</a>{{/is_home_page}}</h1>
+                    <h2 id="title2">Handlebar &#123;&#123;Mustache&#125;&#125; Demo Application</h2>
+                </div>
+            </div>
             <div id="navcontainer">
                 <div id="nav">
-                    <ul id="navinner">
-			{{navigation}}
-                    </ul>
+                    <ul id="navinner">{{navigation}}</ul>
                 </div>
             </div>
             <div id="contentcontainer">

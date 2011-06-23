@@ -1,16 +1,19 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-/**
- * Define Constants
- */
-define('CSS_PATH', '/static/css/');
+// -- Environment setup --------------------------------------------------------
+// Load the core Kohana class
+require SYSPATH.'classes/kohana/core'.EXT;
 
-/**
- * Set the production status by the domain.
- */
-define('IN_PRODUCTION', $_SERVER['SERVER_ADDR'] !== '127.0.0.1');
-
-//-- Environment setup --------------------------------------------------------
+if (is_file(APPPATH.'classes/kohana'.EXT))
+{
+	// Application extends the core
+	require APPPATH.'classes/kohana'.EXT;
+}
+else
+{
+	// Load empty core extension
+	require SYSPATH.'classes/kohana'.EXT;
+}
 
 /**
  * Set the default time zone.
@@ -44,7 +47,40 @@ spl_autoload_register(array('Kohana', 'auto_load'));
  */
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
-//-- Configuration and initialization -----------------------------------------
+// -- Configuration and initialization -----------------------------------------
+
+/**
+ * Set the default language
+ */
+I18n::lang('en-GB');
+
+/**
+ * Set Kohana::$environment if a 'KOHANA_ENV' environment variable has been supplied.
+ *
+ * Note: If you supply an invalid environment name, a PHP warning will be thrown
+ * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
+ */
+if (isset($_SERVER['KOHANA_ENV']))
+{
+	Kohana::$environment = constant('Kohana::'.strtoupper($_SERVER['KOHANA_ENV']));
+}
+
+/**
+ * Define Constants
+ */
+if ($_SERVER['SERVER_ADDR'] !== '127.0.0.1')
+{
+	Kohana::$environment = Kohana::PRODUCTION;
+}
+//Kohana::$environment = Kohana::PRODUCTION;
+
+define('CSS_PATH', '/static/css/');
+define('IMG_PATH', '/static/img/');
+define('JS_PATH', '/static/js/');
+define('MEDIA_PATH', '/static/media/');
+define('SWF_PATH', '/static/swf/');
+define('PAGE_PATH', '/static/page/');
+
 
 /**
  * Initialize Kohana, setting the default options.
@@ -62,18 +98,18 @@ ini_set('unserialize_callback_func', 'spl_autoload_call');
 Kohana::init(array(
 			'base_url' => '/',
 			'index_file' => FALSE,
-			'errors' => ! IN_PRODUCTION
-	));
+			'errors' => FALSE
+		));
 
 /**
  * Attach the file write to logging. Multiple writers are supported.
  */
-Kohana::$log->attach(new Kohana_Log_File(APPPATH.'logs'));
+Kohana::$log->attach(new Log_File(APPPATH.'logs'));
 
 /**
  * Attach a file reader to config. Multiple readers are supported.
  */
-Kohana::$config->attach(new Kohana_Config_File);
+Kohana::$config->attach(new Config_File);
 
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
@@ -82,79 +118,42 @@ Kohana::modules(array(
 			// 'auth'       => MODPATH.'auth',       // Basic authentication
 			// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 			// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-			// 'database'   => MODPATH.'database',   // Database access
+			// 'database'   => MODPATH.'database',	 // Database access
 			// 'image'      => MODPATH.'image',      // Image manipulation
 			// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-			// 'oauth'      => MODPATH.'oauth',      // OAuth authentication
-			// 'pagination' => MODPATH.'pagination', // Paging of results
 			// 'unittest'   => MODPATH.'unittest',   // Unit testing
-			// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
-			'handlebar' => MODPATH.'handlebar'
-	));
+			'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+			'handlebar' => MODPATH.'handlebar'  // Template engine
+		));
+
+
+/**
+ * Set cookie salt
+ */
+Cookie::$salt = 'npepper';
+
+/**
+ * Set custom exception handler
+ */
+set_exception_handler(array('Kohana_Exception', 'handler'));
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-Route::set('error', 'error(/<action>(/<id>))', array('id' => '.+'))
-	->defaults(array(
-			'controller' => 'error',
-			'action' => '404',
-			'id' => NULL,
-	));
+Route::set('error', 'error/<action>(/<message>)', array('action' => '[0-9]++', 'message' => '.+'))
+		->defaults(array(
+			'controller' => 'error'
+		));
 
-
-Route::set('default', '(<controller>(/<action>))')
+/*Route::set('mustache/examples', 'mustache/examples(/<action>)')
 	->defaults(array(
-		'controller' => 'home',
+		'controller' => 'mustache_examples',
 		'action'     => 'index',
 	));
-
-
-/**
- * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
- * If no source is specified, the URI will be automatically detected.
- */
-try
-{
-	$request = Request::instance();
-}
-catch (Kohana_Request_Exception $e)
-{
-	if ( ! IN_PRODUCTION)
-	{
-		// Just re-throw the exception
-		throw $e;
-	}
-
-	// Log the error - usually missing controller
-	Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
-
-	// Could not match a route so point to a 404
-	$request = Request::factory('error/404'.$_SERVER['PATH_INFO']);
-}
-
-try
-{
-	// Attempt to execute the response
-	$request->execute();
-}
-catch (Exception $e)
-{
-	if ( ! IN_PRODUCTION)
-	{
-		// Just re-throw the exception
-		throw $e;
-	}
-
-	// Log the error - usually missing action
-	Kohana::$log->add(Kohana::ERROR, Kohana::exception_text($e));
-
-	// Send to internal error route
-	$request = Request::factory('error/404'.$_SERVER['PATH_INFO'])->execute();
-}
-
-/**
- * Display the request response.
- */
-echo $request->send_headers()->response;
+*/
+Route::set('default', '(<controller>(/<action>))')
+	->defaults(array(
+		'controller' => 'mustache_examples',
+		'action'     => 'index',
+	));
