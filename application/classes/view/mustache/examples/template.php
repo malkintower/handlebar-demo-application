@@ -26,9 +26,19 @@ class View_Mustache_Examples_Template extends View_Template
 		$this->add_scripts($scripts);
 	}
 
+	function meta_description()
+	{
+		return 'Mustache '.$this->example_title;
+	}
+
+	function meta_keywords()
+	{
+		return 'kohana, mustache, '.strtolower(implode(", ", explode(" ", $this->example_title)));
+	}
+
 	function page_title()
 	{
-		return $this->example_title.' | '.$this->page_title;
+		return $this->example_title.' | Mustache Examples';
 	}
 
 	function template()
@@ -52,7 +62,7 @@ class View_Mustache_Examples_Template extends View_Template
 		// include and initialise the example class
 		require Kohana::find_file($this->example_path, $this->class_name);
 		$mustache = new $this->class_name();
-		
+
 		return $mustache->render($template);
 	}
 

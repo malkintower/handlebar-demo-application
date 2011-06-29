@@ -20,7 +20,9 @@ h5 { font-size: 0.75em; }
 #header { padding: 1em 16px; }
 #headerinner { width: 100%; overflow: auto; }
 #title { display: block; float: left; text-indent: -5000px; width: 191px; height: 62px; margin: 0; padding: 0; }
-#title2 { display: block; float: left;  margin: 0; line-height: 49px; margin: 0; padding: 0 0 0 1em; overflow: auto;  }
+#title a { display: block; width: 191px; height: 62px; }
+#title2 { display: block; float: left;  margin: 0; line-height: 49px; margin: 0; padding: 0 0 0 1em; overflow: auto; }
+#title2 a { text-decoration: none; }
 
 #nav { max-width: 100%; min-width: 128px; margin: 0 auto; overflow: auto; }
 #navinner { list-style-type: none; overflow: auto; margin: 0 16px 0 16px; }
@@ -31,29 +33,21 @@ h5 { font-size: 0.75em; }
 #contentcontainer { overflow: auto; }
 #content { padding: 1em 16px; }
 
-h1 { margin: 0 0 0.75em 0; }
+h1 { margin: 0 0 0.75em 0; float: none; text-indent: 0; }
 h2, h3, h4, h5, h6 { margin: 1.5em 0 0.75em 0; }
 p { margin: 0 0 1em 0; overflow: auto; }
 ol { margin: 0 0 1em 20px; list-style: decimal; }
 ul { margin: 0 0 1em 20px; list-style: disc; }
-li { margin: 0.25em 0; }
-pre { margin: 0 0 1em 0; padding: 1em; }
+li { margin: 1em 0; }
+li p { display: inline; }
+
+pre { margin: 1em 0; padding: 1em; }
 
 .note {
     overflow: auto;
     padding: 1.5em 1.5em 1.5em 5em;
 }
-
-/* contact page */
-fieldset { padding: 0.5em 0; overflow: auto; }
-fieldset label { display: block; }
-.itb { width: 25em; height: 1.2em; border: 1px solid; padding: 0.25em; }
-.ita { width: 25em; height: 10em; border: 1px solid; padding: 0.25em; }
-span.error { display: block; }
-
-
-/* IE 6 Fix */
-* html #navinner { height: 1%; }
+.shortlist li { margin: 0.25em 0; }
 
 
 /* Colours */
@@ -63,11 +57,9 @@ body { color: #4c4c4c; background-color: #f1f8db; }
 
 #header { background: url(/guide/media/img/header.png) repeat-x transparent; }
 #title { background: url(/guide/media/img/kohana.png) no-repeat 0 50% transparent; }
-#title2 { color: #fff; }
+#title2, #title2 a { color: #fff; }
 
-#contentcontainer { background-color: #f1f8db; }
-
-#content { background: url(../img/content.gif) repeat-x transparent; }
+#contentcontainer { background: url(../img/content.gif) repeat-x #f1f8db; }
 #content a { color: #3b7439; }
 #content a:hover { color: #4c4c4c; }
 

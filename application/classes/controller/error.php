@@ -47,14 +47,4 @@ class Controller_Error extends Controller_Handlebar
 			->bind('message', $this->message);
 	}
 
-	public function action_503()
-	{
-		$this->template->title = 'Maintenance Mode';
-	}
-
-	public function action_500()
-	{
-		$this->template->title = 'Internal Server Error';
-	}
-
 }

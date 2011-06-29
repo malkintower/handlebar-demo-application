@@ -2,7 +2,7 @@
 
 class View_Template extends Handlebar {
 
-	protected $page_title = 'Handlebar Mustache';
+	protected $page_title = 'Handlebar Mustache Demo';
 	protected $meta_description = 'Handlebar Mustache Example Application';
 	protected $meta_keywords = 'handlebar, mustache, kohana, application, template';
 	protected $styles = array();
@@ -10,11 +10,18 @@ class View_Template extends Handlebar {
 	protected $nav = array(
 		array(
 			'name' => 'Mustache Examples',
-			'href' => '/mustache_examples'
+			'href' => array(
+				'directory' => 'mustache',
+				'controller' => 'examples'
+			),
+			'home' => TRUE
 		),
 		array(
 			'name' => 'Handlebar User Guide',
-			'href' => '/handlebar_userguide'
+			'href' => array(
+				'directory' => 'handlebar',
+				'controller' => 'userguide'
+			)
 		)
 	);
 	protected $content = 'default content';
@@ -63,7 +70,6 @@ class View_Template extends Handlebar {
 	function before()
 	{
 		$this->insert_template('template');
-		$this->insert_template('navigation', 'navigation');
 
 		$styles = array(
 			array('href' => CSS_PATH.'reset.css'),
@@ -72,7 +78,6 @@ class View_Template extends Handlebar {
 
 		$this->add_styles($styles);
 	}
-
 
 	function navigation()
 	{
@@ -86,32 +91,17 @@ class View_Template extends Handlebar {
 
 		foreach ($nav as &$item)
 		{
-			$href_controller = strtolower($this->get_controller_from_href($item['href']));
-
-			if ($href_controller === $request_controller AND $request_action === 'index')
+			if ($item['href']['controller'] == $request_controller AND $request_action === 'index')
 			{
 				unset($item['href']);
-				break;
+			}
+			else
+			{
+				$item['href'] = '/'.implode('/', $item['href']);
 			}
 		}
 
 		return $nav;
-	}
-
-	function get_controller_from_href($href)
-	{
-		$controller = '';
-		$parts = explode('/', $href);
-
-		foreach ($parts as $part)
-		{
-			if ( ! empty($part))
-			{
-				$controller = $part;
-				break;
-			}
-		}
-		return $controller;
 	}
 
 	function styles()
@@ -141,9 +131,7 @@ class View_Template extends Handlebar {
 
 		foreach ($nav as &$item)
 		{
-			$href_controller = strtolower($this->get_controller_from_href($item['href']));
-
-			if ($href_controller === 'home' AND ($request_controller === 'home' OR empty($request_controller)))
+			if (isset($item['home']) AND ($item['href']['controller'] == $request_controller OR empty($request_controller)))
 			{
 				$home = TRUE;
 				break;

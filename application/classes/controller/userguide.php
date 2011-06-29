@@ -8,13 +8,6 @@
  */
 class Controller_Userguide extends Controller_Template {
 
-	//public $template = 'userguide/template';
-
-	// Routes
-	//protected $media;
-	//protected $api;
-	//protected $guide;
-
 	public function before()
 	{
 		if ($this->request->action() === 'media')
@@ -28,8 +21,6 @@ class Controller_Userguide extends Controller_Template {
 	{
 		throw new HTTP_Exception_404('guide/docs has been disabled');
 	}
-
-	// guide/api disabled in config/userguide.php
 
 	public function action_media()
 	{

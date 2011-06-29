@@ -21,45 +21,45 @@ class Controller_Handlebar_Userguide extends Controller_Handlebar {
 
 	public function action_about()
 	{
-		$tutorial_title = 'About';
+		$userguide_title = 'About';
 
 		$markdown = $this->get_markdown_file('guide/handlebar', 'index');
 
 		$this->view = Handlebar::factory('handlebar/userguide/template')
-				->bind('tutorial_title', $tutorial_title)
+				->bind('userguide_title', $userguide_title)
 				->bind('markdown', $markdown);
 	}
 
 	public function action_installation()
 	{
-		$tutorial_title = 'Installation';
+		$userguide_title = 'Installation';
 
 		$markdown = $this->get_markdown_file('guide/handlebar', 'installation');
 
 		$this->view = Handlebar::factory('handlebar/userguide/template')
-				->bind('tutorial_title', $tutorial_title)
+				->bind('userguide_title', $userguide_title)
 				->bind('markdown', $markdown);
 	}
 
 	public function action_hello()
 	{
-		$tutorial_title = 'Hello World';
+		$userguide_title = 'Hello World Tutorial';
 
 		$markdown = $this->get_markdown_file('guide/handlebar/tutorials', 'hello');
 
 		$this->view = Handlebar::factory('handlebar/userguide/template')
-				->bind('tutorial_title', $tutorial_title)
+				->bind('userguide_title', $userguide_title)
 				->bind('markdown', $markdown);
 	}
 
 	public function action_template()
 	{
-		$tutorial_title = 'Template';
+		$userguide_title = 'Template Tutorial';
 
 		$markdown = $this->get_markdown_file('guide/handlebar/tutorials', 'template');
 
 		$this->view = Handlebar::factory('handlebar/userguide/template')
-				->bind('tutorial_title', $tutorial_title)
+				->bind('userguide_title', $userguide_title)
 				->bind('markdown', $markdown);
 	}
 

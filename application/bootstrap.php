@@ -72,14 +72,9 @@ if ($_SERVER['SERVER_ADDR'] !== '127.0.0.1')
 {
 	Kohana::$environment = Kohana::PRODUCTION;
 }
-//Kohana::$environment = Kohana::PRODUCTION;
 
 define('CSS_PATH', '/static/css/');
 define('IMG_PATH', '/static/img/');
-define('JS_PATH', '/static/js/');
-define('MEDIA_PATH', '/static/media/');
-define('SWF_PATH', '/static/swf/');
-define('PAGE_PATH', '/static/page/');
 
 
 /**
@@ -98,7 +93,7 @@ define('PAGE_PATH', '/static/page/');
 Kohana::init(array(
 			'base_url' => '/',
 			'index_file' => FALSE,
-			'errors' => FALSE
+			'errors' => Kohana::DEVELOPMENT === Kohana::$environment
 		));
 
 /**
@@ -122,7 +117,7 @@ Kohana::modules(array(
 			// 'image'      => MODPATH.'image',      // Image manipulation
 			// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 			// 'unittest'   => MODPATH.'unittest',   // Unit testing
-			'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+			'userguide' => MODPATH.'userguide', // User guide and API documentation
 			'handlebar' => MODPATH.'handlebar'  // Template engine
 		));
 
@@ -146,14 +141,24 @@ Route::set('error', 'error/<action>(/<message>)', array('action' => '[0-9]++', '
 			'controller' => 'error'
 		));
 
-/*Route::set('mustache/examples', 'mustache/examples(/<action>)')
+Route::set('mustache', 'mustache(/<controller>(/<action>))')
 	->defaults(array(
-		'controller' => 'mustache_examples',
+		'directory' => 'mustache',
+		'controller' => 'examples',
 		'action'     => 'index',
 	));
-*/
-Route::set('default', '(<controller>(/<action>))')
+
+Route::set('handlebar', 'handlebar(/<controller>(/<action>))')
 	->defaults(array(
-		'controller' => 'mustache_examples',
+		'directory' => 'handlebar',
+		'controller' => 'userguide',
 		'action'     => 'index',
+	));
+
+Route::set('default', '(<directory>(/<controller>(/<action>(/<id>))))')
+	->defaults(array(
+		'directory' => 'mustache',
+		'controller' => 'examples',
+		'action'     => 'index',
+		'id' => NULL
 	));

@@ -13,19 +13,24 @@
         {{/styles}}
         {{#scripts}}
         <script type="text/javascript" src="{{src}}"></script>
-        {{/scripts}}        
+        {{/scripts}}
     </head>
     <body>
         <div id="container">
             <div id="header">
                 <div id="headerinner">
-                    <h1 id="title">{{^is_home_page}}<a href="/">{{/is_home_page}}Kohana{{^is_home_page}}</a>{{/is_home_page}}</h1>
-                    <h2 id="title2">Handlebar &#123;&#123;Mustache&#125;&#125; Demo Application</h2>
+                    <h1 id="title"><a href="http://kohanaframework.org/">Kohana</a></h1>
+                    <h2 id="title2">{{^is_home_page}}<a href="/">{{/is_home_page}}Handlebar &#123;&#123;Mustache&#125;&#125; Demo Application{{^is_home_page}}</a>{{/is_home_page}}</h2>
                 </div>
             </div>
             <div id="navcontainer">
                 <div id="nav">
-                    <ul id="navinner">{{navigation}}</ul>
+                    <ul id="navinner">
+                    {{#navigation}}
+                        {{#href}}<li><a href="{{href}}">{{name}}</a></li>{{/href}}
+                        {{^href}}<li class="selected">{{name}}</li>{{/href}}
+                    {{/navigation}}
+                    </ul>
                 </div>
             </div>
             <div id="contentcontainer">
